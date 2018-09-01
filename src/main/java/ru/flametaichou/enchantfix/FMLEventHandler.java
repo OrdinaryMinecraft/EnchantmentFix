@@ -2,9 +2,15 @@ package ru.flametaichou.enchantfix;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ChatComponentText;
 
 import java.util.Objects;
 
@@ -40,6 +46,15 @@ public final class FMLEventHandler {
                                 if (enchantId == 0) {
                                     if (enchantLvl > 3) {
                                         nbttaglist.getCompoundTagAt(i).setInteger("lvl", 3);
+                                        // Возврат
+                                        if (!player.worldObj.isRemote) {
+                                            ItemStack book = new ItemStack(Items.enchanted_book, 1);
+                                            EnchantmentData data = new EnchantmentData(Enchantment.protection, 1);
+                                            Items.enchanted_book.addEnchantment(book, data);
+                                            EntityItem entityBook = new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, book);
+                                            player.worldObj.spawnEntityInWorld(entityBook);
+                                            player.addChatComponentMessage(new ChatComponentText("Вам было возвращено зачарование Защита I"));
+                                        }
                                     }
                                 }
 
