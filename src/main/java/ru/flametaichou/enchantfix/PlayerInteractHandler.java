@@ -1,6 +1,8 @@
 package ru.flametaichou.enchantfix;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
@@ -24,6 +26,7 @@ public class PlayerInteractHandler {
         }
     }
 
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event) {
         if (Objects.nonNull(event.gui) && event.gui.getClass().getName().toLowerCase().contains("enchant")) {
